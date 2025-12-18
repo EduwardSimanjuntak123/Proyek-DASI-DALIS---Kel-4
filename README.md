@@ -1,2 +1,2 @@
 # Proyek-DASI-DALIS---Kel-4
-Pengaruh Tingkat Pendidikan terhadap Jenis Pekerjaan Penduduk Desa Pangombusan
+Analisis Linearitas Pendidikan terhadap Pekerjaan di Sumatera Utara
