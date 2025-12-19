@@ -15,7 +15,7 @@ warnings.filterwarnings('ignore')
 # Konfigurasi halaman
 st.set_page_config(
     page_title="Analisis Linearitas Pendidikan vs Pekerjaan",
-    page_icon="📊",
+    page_icon="",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -194,16 +194,16 @@ rf_model, nb_model = load_models()
 # Sidebar
 with st.sidebar:
     
-    st.title("🔍 Navigasi Dashboard")
+    st.title("Navigasi Dashboard")
     
     menu_options = [
-        "📊 Overview & Dashboard",
-        "👥 Profil Responden",
-        "🎓 Analisis Pendidikan",
-        "💼 Analisis Pekerjaan",
-        "🔗 Linearitas Pendidikan-Pekerjaan",
-        "🤖 Prediksi Model ML",
-        "📈 Insights & Rekomendasi"
+        "Overview & Dashboard",
+        "Profil Responden",
+        "Analisis Pendidikan",
+        "Analisis Pekerjaan",
+        "Linearitas Pendidikan-Pekerjaan",
+        "Prediksi Model ML",
+        "Insights & Rekomendasi"
     ]
     
     selected_page = st.radio("Pilih Menu:", menu_options)
@@ -211,27 +211,27 @@ with st.sidebar:
     st.markdown("---")
     
     if df is not None:
-        st.info(f"📊 **Total Data:** {len(df):,} responden")
-        st.info(f"📍 **Lokasi:** Sumatera Utara")
+        st.info(f"Total Data: {len(df):,} responden")
+        st.info(f"Lokasi: Sumatera Utara")
         
     st.markdown("---")
-    st.markdown("### 📋 Tentang Proyek")
+    st.markdown("### Tentang Proyek")
     st.markdown("""
     Dashboard ini menganalisis hubungan antara 
     pendidikan dengan pekerjaan di Sumatera Utara.
     
-    **Tujuan:**
+    Tujuan:
     - Memahami tingkat linearitas pendidikan-pekerjaan
     - Mengidentifikasi faktor penentu linearitas
     - Memberikan rekomendasi kebijakan
     """)
 
 # Halaman utama
-st.markdown('<h1 class="main-header">🎓 Analisis Linearitas Pendidikan vs Pekerjaan di Sumatera Utara</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-header">Analisis Linearitas Pendidikan vs Pekerjaan di Sumatera Utara</h1>', unsafe_allow_html=True)
 
 # 1. OVERVIEW & DASHBOARD
-if selected_page == "📊 Overview & Dashboard":
-    st.markdown('<h2 class="sub-header">📈 Dashboard Ringkasan</h2>', unsafe_allow_html=True)
+if selected_page == "Overview & Dashboard":
+    st.markdown('<h2 class="sub-header">Dashboard Ringkasan</h2>', unsafe_allow_html=True)
     
     if df is not None:
         # Hitung metrics secara real-time
@@ -243,33 +243,33 @@ if selected_page == "📊 Overview & Dashboard":
         
         with col1:
             percentage_non_linear = (total_non_linear / len(df) * 100) if len(df) > 0 else 0
-            st.metric("🚨 Tidak Linear", f"{total_non_linear:,}", 
+            st.metric("Tidak Linear", f"{total_non_linear:,}", 
                      f"{percentage_non_linear:.1f}%")
         
         with col2:
             percentage_linear = (total_linear / len(df) * 100) if len(df) > 0 else 0
-            st.metric("✅ Linear", f"{total_linear:,}", 
+            st.metric("Linear", f"{total_linear:,}", 
                      f"{percentage_linear:.1f}%")
         
         with col3:
             if 'Pendidikan_Encoded' in df.columns:
                 avg_education = df['Pendidikan_Encoded'].mean()
-                st.metric("🎓 Rata-rata Pendidikan", f"{avg_education:.1f}", "skala 0-7")
+                st.metric("Rata-rata Pendidikan", f"{avg_education:.1f}", "skala 0-7")
             else:
-                st.metric("🎓 Rata-rata Pendidikan", "N/A")
+                st.metric("Rata-rata Pendidikan", "N/A")
         
         with col4:
             if 'Jurusan_Cleaned_Final_V3' in df.columns:
                 major_fields = df['Jurusan_Cleaned_Final_V3'].nunique()
-                st.metric("📚 Bidang Jurusan", f"{major_fields}")
+                st.metric("Bidang Jurusan", f"{major_fields}")
             else:
-                st.metric("📚 Bidang Jurusan", "N/A")
+                st.metric("Bidang Jurusan", "N/A")
         
         # Row 2
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown('<h3 class="sub-header">📊 Distribusi Linearitas</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Distribusi Linearitas</h3>', unsafe_allow_html=True)
             
             if 'Linearitas_System_Encoded' in df.columns:
                 linear_counts = df['Linearitas_System_Encoded'].value_counts()
@@ -283,7 +283,7 @@ if selected_page == "📊 Overview & Dashboard":
                 fig.update_traces(textposition='inside', textinfo='percent+label')
                 fig.update_layout(showlegend=False, 
                                 height=400,
-                                annotations=[dict(text=f'{len(df):,}<br>Responden', 
+                                annotations=[dict(text=f'{len(df):,}Responden', 
                                                 x=0.5, y=0.5, font_size=14, showarrow=False)])
                 
                 st.plotly_chart(fig, use_container_width=True)
@@ -297,7 +297,7 @@ if selected_page == "📊 Overview & Dashboard":
                 """, unsafe_allow_html=True)
         
         with col2:
-            st.markdown('<h3 class="sub-header">📈 Linearitas per Jenjang Pendidikan</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Linearitas per Jenjang Pendidikan</h3>', unsafe_allow_html=True)
             
             if 'Pendidikan_Label' in df.columns and 'Linearitas_System_Encoded' in df.columns:
                 # Hitung persentase real-time
@@ -382,7 +382,7 @@ if selected_page == "📊 Overview & Dashboard":
                     st.plotly_chart(fig, use_container_width=True)
                 
                 with col2:
-                    st.markdown("### 🎯 Analisis Cepat:")
+                    st.markdown("### Analisis Cepat:")
                     for i, (jurusan, count) in enumerate(top_mismatch.items(), 1):
                         percentage = (count / total_non_linear * 100) if total_non_linear > 0 else 0
                         st.metric(f"{i}. {jurusan[:20]}...", 
@@ -392,8 +392,8 @@ if selected_page == "📊 Overview & Dashboard":
                 st.warning("Tidak ada data tidak linear untuk ditampilkan")
 
 # 6. PREDIKSI MODEL ML (REAL-TIME CALCULATIONS)
-elif selected_page == "🤖 Prediksi Model ML":
-    st.markdown('<h2 class="sub-header">🤖 Analisis Model Machine Learning</h2>', unsafe_allow_html=True)
+elif selected_page == "Prediksi Model ML":
+    st.markdown('<h2 class="sub-header">Analisis Model Machine Learning</h2>', unsafe_allow_html=True)
     
     if rf_model is not None and nb_model is not None and df is not None:
         # Siapkan data untuk evaluasi
@@ -419,7 +419,7 @@ elif selected_page == "🤖 Prediksi Model ML":
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    st.markdown('<h3 class="sub-header">📊 Performa Model (Real-time)</h3>', unsafe_allow_html=True)
+                    st.markdown('<h3 class="sub-header">Performa Model (Real-time)</h3>', unsafe_allow_html=True)
                     
                     # Random Forest metrics
                     rf_metrics, rf_pred = calculate_model_performance(rf_model, X_test, y_test, "Random Forest")
@@ -451,19 +451,19 @@ elif selected_page == "🤖 Prediksi Model ML":
                         # Tampilkan metrics detail
                         col_a, col_b = st.columns(2)
                         with col_a:
-                            st.metric("🏆 Random Forest Accuracy", 
+                            st.metric("Random Forest Accuracy", 
                                      f"{rf_metrics['Akurasi']:.2%}")
                             st.metric("Random Forest F1-Score", 
                                      f"{rf_metrics['F1-Score']:.2%}")
                         
                         with col_b:
-                            st.metric("📊 Naive Bayes Accuracy", 
+                            st.metric("Naive Bayes Accuracy", 
                                      f"{nb_metrics['Akurasi']:.2%}")
                             st.metric("Naive Bayes F1-Score", 
                                      f"{nb_metrics['F1-Score']:.2%}")
                     
                 with col2:
-                    st.markdown('<h3 class="sub-header">🎯 Feature Importance (Real Calculation)</h3>', unsafe_allow_html=True)
+                    st.markdown('<h3 class="sub-header">Feature Importance (Real Calculation)</h3>', unsafe_allow_html=True)
                     
                     # Hitung feature importance untuk Random Forest
                     rf_importance = calculate_feature_importance(rf_model, X, y, available_features, 'rf')
@@ -487,10 +487,10 @@ elif selected_page == "🤖 Prediksi Model ML":
                         # Tampilkan insight real
                         top_factor = rf_importance.iloc[-1]['Faktor'] if len(rf_importance) > 0 else "N/A"
                         top_value = rf_importance.iloc[-1]['Importance'] if len(rf_importance) > 0 else 0
-                        st.markdown(f"### 💡 Insight Real: {top_factor} adalah faktor terpenting ({top_value:.1%})")
+                        st.markdown(f"### Insight Real: {top_factor} adalah faktor terpenting ({top_value:.1%})")
                     
                     # Tambahkan confusion matrix
-                    st.markdown('<h3 class="sub-header">📊 Confusion Matrix</h3>', unsafe_allow_html=True)
+                    st.markdown('<h3 class="sub-header">Confusion Matrix</h3>', unsafe_allow_html=True)
                     
                     if rf_pred is not None:
                         cm = confusion_matrix(y_test, rf_pred)
@@ -521,14 +521,14 @@ elif selected_page == "🤖 Prediksi Model ML":
         st.warning("Model atau data tidak tersedia. Pastikan file model dan data sudah di-load dengan benar.")
 
 # 2. PROFIL RESPONDEN
-elif selected_page == "👥 Profil Responden":
-    st.markdown('<h2 class="sub-header">👥 Profil Demografi Responden</h2>', unsafe_allow_html=True)
+elif selected_page == "Profil Responden":
+    st.markdown('<h2 class="sub-header">Profil Demografi Responden</h2>', unsafe_allow_html=True)
     
     if df is not None:
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown('<h3 class="sub-header">👤 Distribusi Jenis Kelamin</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Distribusi Jenis Kelamin</h3>', unsafe_allow_html=True)
             
             if 'Jenis Kelamin' in df.columns:
                 gender_counts = df['Jenis Kelamin'].value_counts()
@@ -552,7 +552,7 @@ elif selected_page == "👥 Profil Responden":
                 st.warning("Kolom 'Jenis Kelamin' tidak ditemukan")
         
         with col2:
-            st.markdown('<h3 class="sub-header">💍 Status Pernikahan</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Status Pernikahan</h3>', unsafe_allow_html=True)
             
             if 'Status Pernikahan anda' in df.columns:
                 marriage_counts = df['Status Pernikahan anda'].value_counts()
@@ -571,7 +571,7 @@ elif selected_page == "👥 Profil Responden":
                 st.warning("Kolom 'Status Pernikahan anda' tidak ditemukan")
         
         # Distribusi Domisili
-        st.markdown('<h3 class="sub-header">📍 Distribusi Domisili Responden</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="sub-header">Distribusi Domisili Responden</h3>', unsafe_allow_html=True)
         
         if 'Kabupaten/Kota domisili anda ' in df.columns:
             # Filter untuk top 15 kota
@@ -587,7 +587,7 @@ elif selected_page == "👥 Profil Responden":
             st.plotly_chart(fig, use_container_width=True)
             
             # Tabel detail
-            with st.expander("📋 Lihat Detail Distribusi Kota/Kabupaten"):
+            with st.expander("Lihat Detail Distribusi Kota/Kabupaten"):
                 city_details = df['Kabupaten/Kota domisili anda '].value_counts().reset_index()
                 city_details.columns = ['Kota/Kabupaten', 'Jumlah Responden']
                 city_details['Persentase'] = (city_details['Jumlah Responden'] / len(df) * 100).round(2)
@@ -597,7 +597,7 @@ elif selected_page == "👥 Profil Responden":
         
         # Usia (jika ada kolom usia)
         if 'Berapa usia anda saat ini? (cth: 20 tahun)' in df.columns:
-            st.markdown('<h3 class="sub-header">📊 Distribusi Usia</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Distribusi Usia</h3>', unsafe_allow_html=True)
             
             # Clean age data
             df_clean = df.copy()
@@ -620,14 +620,14 @@ elif selected_page == "👥 Profil Responden":
                 st.metric("Usia Maksimum", f"{df_clean['Usia'].max():.0f} tahun")
 
 # 3. ANALISIS PENDIDIKAN - DIBAWAH BAGIAN HEATMAP (PERBAIKAN DATA NUMERIK)
-elif selected_page == "🎓 Analisis Pendidikan":
-    st.markdown('<h2 class="sub-header">🎓 Analisis Latar Belakang Pendidikan</h2>', unsafe_allow_html=True)
+elif selected_page == "Analisis Pendidikan":
+    st.markdown('<h2 class="sub-header">Analisis Latar Belakang Pendidikan</h2>', unsafe_allow_html=True)
     
     if df is not None:
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown('<h3 class="sub-header">📊 Distribusi Jenjang Pendidikan</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Distribusi Jenjang Pendidikan</h3>', unsafe_allow_html=True)
             
             if 'Pendidikan_Label' in df.columns:
                 edu_counts = df['Pendidikan_Label'].value_counts()
@@ -648,7 +648,7 @@ elif selected_page == "🎓 Analisis Pendidikan":
                 st.warning("Data pendidikan label tidak tersedia")
         
         with col2:
-            st.markdown('<h3 class="sub-header">📚 Distribusi Bidang Jurusan (Top 15)</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Distribusi Bidang Jurusan (Top 15)</h3>', unsafe_allow_html=True)
             
             if 'Jurusan_Cleaned_Final_V3' in df.columns:
                 major_counts = df['Jurusan_Cleaned_Final_V3'].value_counts().head(15)
@@ -669,7 +669,7 @@ elif selected_page == "🎓 Analisis Pendidikan":
                 st.warning("Data jurusan tidak tersedia")
         
         # Heatmap: Pendidikan vs Jurusan - DATA REAL NUMERIK
-        st.markdown('<h3 class="sub-header">🔥 Hubungan Pendidikan dengan Bidang Jurusan</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="sub-header">Hubungan Pendidikan dengan Bidang Jurusan</h3>', unsafe_allow_html=True)
         
         if 'Pendidikan_Label' in df.columns and 'Jurusan_Cleaned_Final_V3' in df.columns:
             # ============================================================
@@ -726,10 +726,10 @@ elif selected_page == "🎓 Analisis Pendidikan":
                 # ============================================================
                 # BAGIAN 3: TABEL DATA NUMERIK REAL (COUNT & PERCENTAGE)
                 # ============================================================
-                with st.expander("📋 Lihat Data Numerik Heatmap (Data Real)"):
+                with st.expander("Lihat Data Numerik Heatmap (Data Real)"):
                     
                     # Tab untuk melihat data dalam format berbeda
-                    tab1, tab2 = st.tabs(["📊 Jumlah Responden (Count)", "📈 Persentase per Baris"])
+                    tab1, tab2 = st.tabs(["Jumlah Responden (Count)", "Persentase per Baris"])
                     
                     with tab1:
                         st.markdown("### Tabel Data: Jumlah Responden per Pendidikan-Jurusan")
@@ -742,7 +742,7 @@ elif selected_page == "🎓 Analisis Pendidikan":
                         st.dataframe(styled_count, use_container_width=True)
                         
                         # Ringkasan statistik
-                        st.markdown("#### 📊 Ringkasan Statistik")
+                        st.markdown("#### Ringkasan Statistik")
                         col1, col2, col3 = st.columns(3)
                         
                         with col1:
@@ -778,7 +778,7 @@ elif selected_page == "🎓 Analisis Pendidikan":
                         st.markdown("**Keterangan:** Angka menunjukkan persentase jurusan dalam setiap jenjang pendidikan")
                         
                         # Contoh interpretasi
-                        st.markdown("#### 🎯 Contoh Interpretasi:")
+                        st.markdown("#### Contoh Interpretasi:")
                         st.markdown("- **SD**: 100% IPA artinya semua responden SD mengambil jurusan IPA")
                         st.markdown("- **Sarjana**: Distribusi lebih beragam karena banyak pilihan jurusan")
                         
@@ -786,7 +786,7 @@ elif selected_page == "🎓 Analisis Pendidikan":
                     # BAGIAN 4: ANALISIS DETAIL PER JENJANG
                     # ============================================================
                     st.markdown("---")
-                    st.markdown("### 🔍 Analisis Detail per Jenjang Pendidikan")
+                    st.markdown("### Analisis Detail per Jenjang Pendidikan")
                     
                     # Pilih jenjang untuk analisis detail
                     selected_edu = st.selectbox(
@@ -844,7 +844,7 @@ elif selected_page == "🎓 Analisis Pendidikan":
                                 st.metric("Jumlah Jurusan", f"{diversity}")
                         
                         # Tampilkan tabel detail
-                        st.markdown(f"#### 📋 Data Detail untuk {selected_edu}")
+                        st.markdown(f"#### Data Detail untuk {selected_edu}")
                         
                         # Buat DataFrame detail
                         detail_df = pd.DataFrame({
@@ -897,7 +897,7 @@ elif selected_page == "🎓 Analisis Pendidikan":
                 st.warning("Tidak ada data yang memenuhi kriteria untuk heatmap")
                 
                 # Tampilkan data mentah sebagai alternatif
-                with st.expander("📋 Lihat Data Mentah Pendidikan-Jurusan"):
+                with st.expander("Lihat Data Mentah Pendidikan-Jurusan"):
                     simple_cross = pd.crosstab(df['Pendidikan_Label'], df['Jurusan_Cleaned_Final_V3'])
                     st.dataframe(simple_cross, use_container_width=True)
         
@@ -905,14 +905,14 @@ elif selected_page == "🎓 Analisis Pendidikan":
             st.warning("Data tidak lengkap untuk analisis hubungan pendidikan-jurusan")
             
 # 4. ANALISIS PEKERJAAN
-elif selected_page == "💼 Analisis Pekerjaan":
-    st.markdown('<h2 class="sub-header">💼 Profil Pekerjaan & Karir</h2>', unsafe_allow_html=True)
+elif selected_page == "Analisis Pekerjaan":
+    st.markdown('<h2 class="sub-header">Profil Pekerjaan & Karir</h2>', unsafe_allow_html=True)
     
     if df is not None:
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown('<h3 class="sub-header">👔 Status Pekerjaan Saat Ini</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Status Pekerjaan Saat Ini</h3>', unsafe_allow_html=True)
             
             if 'Status_Pekerjaan_Final' in df.columns:
                 job_status_counts = df['Status_Pekerjaan_Final'].value_counts().head(10)
@@ -933,7 +933,7 @@ elif selected_page == "💼 Analisis Pekerjaan":
                 st.warning("Kolom 'Status_Pekerjaan_Final' tidak ditemukan")
         
         with col2:
-            st.markdown('<h3 class="sub-header">🏢 Bidang Pekerjaan Saat Ini</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Bidang Pekerjaan Saat Ini</h3>', unsafe_allow_html=True)
             
             if 'Group_Pekerjaan' in df.columns:
                 field_counts = df['Group_Pekerjaan'].value_counts().head(10)
@@ -949,7 +949,7 @@ elif selected_page == "💼 Analisis Pekerjaan":
                 st.warning("Kolom 'Group_Pekerjaan' tidak ditemukan")
         
         # Analisis Gaji
-        st.markdown('<h3 class="sub-header">💰 Analisis Tingkat Penghasilan</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="sub-header">Analisis Tingkat Penghasilan</h3>', unsafe_allow_html=True)
         
         if 'Gaji_Kategori' in df.columns:
             col1, col2 = st.columns([2, 1])
@@ -971,25 +971,25 @@ elif selected_page == "💼 Analisis Pekerjaan":
                 st.plotly_chart(fig, use_container_width=True)
             
             with col2:
-                st.markdown("### 📊 Statistik Gaji:")
+                st.markdown("### Statistik Gaji:")
                 
                 if 'Gaji_Saat_Ini_Encoded' in df.columns:
                     avg_salary = df['Gaji_Saat_Ini_Encoded'].mean()
                     median_salary = df['Gaji_Saat_Ini_Encoded'].median()
                     
-                    st.metric("🏆 Rata-rata Level Gaji", f"{avg_salary:.1f}")
-                    st.metric("🎯 Median Level Gaji", f"{median_salary:.1f}")
+                    st.metric("Rata-rata Level Gaji", f"{avg_salary:.1f}")
+                    st.metric("Median Level Gaji", f"{median_salary:.1f}")
                     
                     # Persentase gaji > 3 Juta
                     high_earners = len(df[df['Gaji_Saat_Ini_Encoded'] >= 3])
-                    st.metric("💎 Penghasilan > 3 Juta", 
+                    st.metric("Penghasilan > 3 Juta", 
                              f"{high_earners:,}",
                              f"{(high_earners/len(df)*100):.1f}%")
         else:
             st.warning("Data gaji tidak tersedia")
         
         # Analisis Lama Kerja
-        st.markdown('<h3 class="sub-header">⏳ Pengalaman Kerja</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="sub-header">Pengalaman Kerja</h3>', unsafe_allow_html=True)
         
         if 'Pengalaman_Kerja' in df.columns and 'Status_Pekerjaan_Final' in df.columns:
             fig = px.sunburst(df,
@@ -1000,7 +1000,7 @@ elif selected_page == "💼 Analisis Pekerjaan":
             st.plotly_chart(fig, use_container_width=True)
         
         # Dashboard Interaktif: Filter berdasarkan pekerjaan
-        st.markdown('<h3 class="sub-header">🔍 Filter Data Pekerjaan</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="sub-header">Filter Data Pekerjaan</h3>', unsafe_allow_html=True)
         
         col1, col2, col3 = st.columns(3)
         
@@ -1067,21 +1067,21 @@ elif selected_page == "💼 Analisis Pekerjaan":
             avg_linear = filtered_df['Linearitas_System_Encoded'].mean() * 100
             st.metric("Persentase Linearitas", f"{avg_linear:.1f}%")
             
-            with st.expander("📋 Lihat Data Terfilter"):
+            with st.expander("Lihat Data Terfilter"):
                 st.dataframe(filtered_df[display_cols].head(20), use_container_width=True)
         elif len(filtered_df) > 0:
-            with st.expander("📋 Lihat Data Terfilter"):
+            with st.expander("Lihat Data Terfilter"):
                 st.dataframe(filtered_df[display_cols].head(20), use_container_width=True)
 
 # 5. LINEARITAS PENDIDIKAN-PEKERJAAN
-elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
-    st.markdown('<h2 class="sub-header">🔗 Analisis Linearitas Pendidikan vs Pekerjaan</h2>', unsafe_allow_html=True)
+elif selected_page == "Linearitas Pendidikan-Pekerjaan":
+    st.markdown('<h2 class="sub-header">Analisis Linearitas Pendidikan vs Pekerjaan</h2>', unsafe_allow_html=True)
     
     if df is not None:
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown('<h3 class="sub-header">🎯 Tingkat Linearitas Keseluruhan</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Tingkat Linearitas Keseluruhan</h3>', unsafe_allow_html=True)
             
             if 'Linearitas_System_Encoded' in df.columns:
                 linear_stats = df['Linearitas_System_Encoded'].value_counts()
@@ -1111,15 +1111,15 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
                 fig.update_layout(height=300)
                 st.plotly_chart(fig, use_container_width=True)
                 
-                st.metric("🟢 Linear", f"{linear_stats.get(1, 0):,}", 
+                st.metric("Linear", f"{linear_stats.get(1, 0):,}", 
                          f"{(linear_stats.get(1, 0)/len(df)*100):.1f}%")
-                st.metric("🔴 Tidak Linear", f"{linear_stats.get(0, 0):,}", 
+                st.metric("Tidak Linear", f"{linear_stats.get(0, 0):,}", 
                          f"{(linear_stats.get(0, 0)/len(df)*100):.1f}%")
             else:
                 st.warning("Data linearitas tidak tersedia")
         
         with col2:
-            st.markdown('<h3 class="sub-header">📊 Linearitas per Jenjang Pendidikan</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Linearitas per Jenjang Pendidikan</h3>', unsafe_allow_html=True)
             
             if 'Pendidikan_Label' in df.columns and 'Linearitas_System_Encoded' in df.columns:
                 cross_tab = pd.crosstab(df['Pendidikan_Label'], df['Linearitas_System_Encoded'], 
@@ -1144,15 +1144,15 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
         # ====================================================================
         # FITUR MENAMPILKAN KASUS NYATA DALAM DATAFRAME
         # ====================================================================
-        st.markdown('<h3 class="sub-header">📋 Database Kasus Nyata Linearitas Pendidikan-Pekerjaan</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="sub-header">Database Kasus Nyata Linearitas Pendidikan-Pekerjaan</h3>', unsafe_allow_html=True)
         
         st.markdown("""
         <div class="info-box">
-        <strong>📌 Penjelasan Kolom:</strong><br>
-        • <span style="color:#EF4444; font-weight:bold;">Status Linearitas</span> = 0=Tidak Sesuai, 1=Sesuai<br>
-        • <span style="color:#3B82F6; font-weight:bold;">Jurusan_Cleaned</span> = Hasil standardisasi dari data mentah<br>
-        • <span style="color:#8B5CF6; font-weight:bold;">Bidang_Pekerjaan</span> = Hasil pengelompokkan bidang kerja<br>
-        • <span style="color:#10B981; font-weight:bold;">Status_Pekerjaan</span> = Hasil standardisasi status pekerjaan
+        <strong>Penjelasan Kolom:</strong><br>
+        • Status Linearitas = 0=Tidak Sesuai, 1=Sesuai<br>
+        • Jurusan_Cleaned = Hasil standardisasi dari data mentah<br>
+        • Bidang_Pekerjaan = Hasil pengelompokkan bidang kerja<br>
+        • Status_Pekerjaan = Hasil standardisasi status pekerjaan
         </div>
         """, unsafe_allow_html=True)
         
@@ -1205,13 +1205,13 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
             # Format Status Linearitas
             if 'Status_Linearitas' in display_df.columns:
                 display_df['Status_Linearitas'] = display_df['Status_Linearitas'].map(
-                    {0: '🔴 TIDAK SESUAI', 1: '🟢 SESUAI'}
+                    {0: 'TIDAK SESUAI', 1: 'SESUAI'}
                 )
             
             # ====================================================================
             # FILTER INTERAKTIF
             # ====================================================================
-            st.markdown("### 🔍 Filter Data Kasus")
+            st.markdown("### Filter Data Kasus")
             
             col1, col2, col3, col4 = st.columns(4)
             
@@ -1260,9 +1260,9 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
             
             if filter_linearitas != 'Semua':
                 if filter_linearitas == 'Sesuai':
-                    filtered_df = filtered_df[filtered_df['Status_Linearitas'] == '🟢 SESUAI']
+                    filtered_df = filtered_df[filtered_df['Status_Linearitas'] == 'SESUAI']
                 else:
-                    filtered_df = filtered_df[filtered_df['Status_Linearitas'] == '🔴 TIDAK SESUAI']
+                    filtered_df = filtered_df[filtered_df['Status_Linearitas'] == 'TIDAK SESUAI']
             
             if filter_pendidikan != 'Semua' and 'Jenjang_Pendidikan' in filtered_df.columns:
                 filtered_df = filtered_df[filtered_df['Jenjang_Pendidikan'] == filter_pendidikan]
@@ -1276,13 +1276,13 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
             # ====================================================================
             # TAMPILKAN DATAFRAME DENGAN STYLING
             # ====================================================================
-            st.markdown(f"### 📊 Menampilkan {len(filtered_df)} Kasus dari {len(display_df)} Total Data")
+            st.markdown(f"### Menampilkan {len(filtered_df)} Kasus dari {len(display_df)} Total Data")
             
             # Konfigurasi tampilan DataFrame
             pd.set_option('display.max_colwidth', None)
             
             # Buat tabs untuk berbagai view
-            view_tabs = st.tabs(["📋 Semua Data", "🎯 Analisis Perbandingan", "📈 Statistik Ringkasan"])
+            view_tabs = st.tabs(["Semua Data", "Analisis Perbandingan", "Statistik Ringkasan"])
             
             with view_tabs[0]:
                 # Tampilkan semua data dengan pagination
@@ -1307,7 +1307,7 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
                 
                 # Apply styling untuk highlight mismatch/match
                 def highlight_linearitas(row):
-                    if row['Status_Linearitas'] == '🔴 TIDAK SESUAI':
+                    if row['Status_Linearitas'] == 'TIDAK SESUAI':
                         return ['background-color: #FEE2E2'] * len(row)
                     else:
                         return ['background-color: #DCFCE7'] * len(row)
@@ -1324,7 +1324,7 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
                 # Tombol download
                 csv = filtered_df.to_csv(index=False).encode('utf-8')
                 st.download_button(
-                    label="📥 Download Data Filtered (CSV)",
+                    label="Download Data Filtered (CSV)",
                     data=csv,
                     file_name=f"kasus_linearitas_sumut_{filter_linearitas}.csv",
                     mime="text/csv",
@@ -1332,7 +1332,7 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
                 )
             
             with view_tabs[1]:
-                st.markdown("### 🎯 Analisis Perbandingan Kasus")
+                st.markdown("### Analisis Perbandingan Kasus")
                 
                 # Analisis 1: Distribusi berdasarkan filter
                 col1, col2 = st.columns(2)
@@ -1347,8 +1347,8 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
                             title=f"Distribusi Linearitas (n={len(filtered_df)})",
                             color=distribusi.index,
                             color_discrete_map={
-                                '🔴 TIDAK SESUAI': '#EF4444',
-                                '🟢 SESUAI': '#10B981'
+                                'TIDAK SESUAI': '#EF4444',
+                                'SESUAI': '#10B981'
                             }
                         )
                         st.plotly_chart(fig, use_container_width=True)
@@ -1369,7 +1369,7 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
                         st.plotly_chart(fig, use_container_width=True)
                 
                 # Analisis 2: Cross tab jurusan vs pekerjaan
-                st.markdown("### 🔗 Hubungan Jurusan vs Bidang Pekerjaan")
+                st.markdown("### Hubungan Jurusan vs Bidang Pekerjaan")
                 
                 if 'Jurusan' in filtered_df.columns and 'Bidang_Pekerjaan' in filtered_df.columns:
                     # Ambil top 5 jurusan dan pekerjaan
@@ -1399,7 +1399,7 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
                         st.plotly_chart(fig, use_container_width=True)
             
             with view_tabs[2]:
-                st.markdown("### 📈 Statistik Ringkasan Kasus")
+                st.markdown("### Statistik Ringkasan Kasus")
                 
                 # Statistik numerik
                 col1, col2, col3 = st.columns(3)
@@ -1407,8 +1407,8 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
                 with col1:
                     st.metric("Total Kasus", f"{len(filtered_df):,}")
                     if 'Status_Linearitas' in filtered_df.columns:
-                        match_count = len(filtered_df[filtered_df['Status_Linearitas'] == '🟢 SESUAI'])
-                        mismatch_count = len(filtered_df[filtered_df['Status_Linearitas'] == '🔴 TIDAK SESUAI'])
+                        match_count = len(filtered_df[filtered_df['Status_Linearitas'] == 'SESUAI'])
+                        mismatch_count = len(filtered_df[filtered_df['Status_Linearitas'] == 'TIDAK SESUAI'])
                         st.metric("Kasus Sesuai", f"{match_count:,}", 
                                  f"{(match_count/len(filtered_df)*100):.1f}%" if len(filtered_df) > 0 else "0%")
                         st.metric("Kasus Tidak Sesuai", f"{mismatch_count:,}", 
@@ -1441,16 +1441,16 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
                         st.metric("Pengalaman Paling Umum", most_common_exp)
                 
                 # Tampilkan contoh kasus menarik
-                st.markdown("### 🎯 Contoh Kasus Menarik")
+                st.markdown("### Contoh Kasus Menarik")
                 
                 if len(filtered_df) > 0:
                     # Contoh kasus mismatch ekstrim
-                    if '🔴 TIDAK SESUAI' in filtered_df['Status_Linearitas'].values:
-                        mismatch_cases = filtered_df[filtered_df['Status_Linearitas'] == '🔴 TIDAK SESUAI']
+                    if 'TIDAK SESUAI' in filtered_df['Status_Linearitas'].values:
+                        mismatch_cases = filtered_df[filtered_df['Status_Linearitas'] == 'TIDAK SESUAI']
                         if len(mismatch_cases) > 0:
                             interesting_mismatch = mismatch_cases.iloc[0]
                             st.markdown(f"""
-                            **🔍 Contoh Kasus Mismatch:**
+                            **Contoh Kasus Mismatch:**
                             - **Jurusan:** {interesting_mismatch.get('Jurusan', 'N/A')}
                             - **Bekerja di:** {interesting_mismatch.get('Bidang_Pekerjaan', 'N/A')} ({interesting_mismatch.get('Status_Pekerjaan', 'N/A')})
                             - **Pendidikan:** {interesting_mismatch.get('Jenjang_Pendidikan', 'N/A')}
@@ -1458,12 +1458,12 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
                             """)
                     
                     # Contoh kasus match ideal
-                    if '🟢 SESUAI' in filtered_df['Status_Linearitas'].values:
-                        match_cases = filtered_df[filtered_df['Status_Linearitas'] == '🟢 SESUAI']
+                    if 'SESUAI' in filtered_df['Status_Linearitas'].values:
+                        match_cases = filtered_df[filtered_df['Status_Linearitas'] == 'SESUAI']
                         if len(match_cases) > 0:
                             interesting_match = match_cases.iloc[0]
                             st.markdown(f"""
-                            **🔍 Contoh Kasus Match:**
+                            **Contoh Kasus Match:**
                             - **Jurusan:** {interesting_match.get('Jurusan', 'N/A')}
                             - **Bekerja di:** {interesting_match.get('Bidang_Pekerjaan', 'N/A')} ({interesting_match.get('Status_Pekerjaan', 'N/A')})
                             - **Pendidikan:** {interesting_match.get('Jenjang_Pendidikan', 'N/A')}
@@ -1473,7 +1473,7 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
             # ====================================================================
             # ANALISIS TREN BERDASARKAN DATA NYATA
             # ====================================================================
-            st.markdown("### 📊 Analisis Tren Berdasarkan Data Nyata")
+            st.markdown("### Analisis Tren Berdasarkan Data Nyata")
             
             # Tren 1: Persentase linearitas per jurusan
             if 'Jurusan' in filtered_df.columns and 'Status_Linearitas' in filtered_df.columns:
@@ -1486,7 +1486,7 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
                     for jurusan in significant_jurusan:
                         jurusan_data = filtered_df[filtered_df['Jurusan'] == jurusan]
                         total = len(jurusan_data)
-                        match = len(jurusan_data[jurusan_data['Status_Linearitas'] == '🟢 SESUAI'])
+                        match = len(jurusan_data[jurusan_data['Status_Linearitas'] == 'SESUAI'])
                         match_percentage = (match / total * 100) if total > 0 else 0
                         
                         jurusan_linearity.append({
@@ -1516,7 +1516,7 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
             if 'Jenjang_Pendidikan' in filtered_df.columns and 'Status_Linearitas' in filtered_df.columns:
                 edu_linearity = filtered_df.groupby('Jenjang_Pendidikan').agg(
                     Total=('Status_Linearitas', 'count'),
-                    Sesuai=('Status_Linearitas', lambda x: (x == '🟢 SESUAI').sum())
+                    Sesuai=('Status_Linearitas', lambda x: (x == 'SESUAI').sum())
                 )
                 edu_linearity['%_Sesuai'] = (edu_linearity['Sesuai'] / edu_linearity['Total'] * 100).round(1)
                 
@@ -1535,7 +1535,7 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
         
         else:
             st.error("""
-            ⚠️ **Data tidak lengkap untuk menampilkan kasus nyata**
+            Data tidak lengkap untuk menampilkan kasus nyata
             
             Kolom yang diperlukan:
             1. Pendidikan terakhir anda
@@ -1548,14 +1548,14 @@ elif selected_page == "🔗 Linearitas Pendidikan-Pekerjaan":
             """)
             
 # 6. PREDIKSI MODEL ML
-elif selected_page == "🤖 Prediksi Model ML":
-    st.markdown('<h2 class="sub-header">🤖 Prediksi Linearitas dengan Machine Learning</h2>', unsafe_allow_html=True)
+elif selected_page == "Prediksi Model ML":
+    st.markdown('<h2 class="sub-header">Prediksi Linearitas dengan Machine Learning</h2>', unsafe_allow_html=True)
     
     if rf_model is not None and nb_model is not None and df is not None:
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown('<h3 class="sub-header">📊 Performa Model</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Performa Model</h3>', unsafe_allow_html=True)
             
             # Metrics untuk kedua model
             metrics_data = {
@@ -1584,10 +1584,10 @@ elif selected_page == "🤖 Prediksi Model ML":
                             title="Perbandingan Performa Model ML")
             st.plotly_chart(fig, use_container_width=True)
             
-            st.markdown("### 🏆 Random Forest lebih unggul dengan akurasi")
+            st.markdown("### Random Forest lebih unggul dengan akurasi")
         
         with col2:
-            st.markdown('<h3 class="sub-header">🎯 Feature Importance</h3>', unsafe_allow_html=True)
+            st.markdown('<h3 class="sub-header">Feature Importance</h3>', unsafe_allow_html=True)
             
             # Data importance dari analisis
             importance_data = {
@@ -1613,11 +1613,11 @@ elif selected_page == "🤖 Prediksi Model ML":
             fig.update_traces(texttemplate='%{text:.3f}', textposition='outside')
             st.plotly_chart(fig, use_container_width=True)
             
-            st.markdown("### 💡 Insight: Pendidikan adalah faktor terpenting")
+            st.markdown("### Insight: Pendidikan adalah faktor terpenting")
 
 # 7. INSIGHTS & REKOMENDASI
-elif selected_page == "📈 Insights & Rekomendasi":
-    st.markdown('<h1 class="main-header">💡 Insights & Rekomendasi Strategis</h1>', unsafe_allow_html=True)
+elif selected_page == "Insights & Rekomendasi":
+    st.markdown('<h1 class="main-header">Insights & Rekomendasi Strategis</h1>', unsafe_allow_html=True)
     
     if df is not None:
         total_responden = len(df)
@@ -1627,7 +1627,7 @@ elif selected_page == "📈 Insights & Rekomendasi":
         st.markdown(f"""
         <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                     padding: 2rem; border-radius: 10px; color: white; margin-bottom: 2rem;">
-        <h2 style="color: white; text-align: center;">📋 Executive Summary</h2>
+        <h2 style="color: white; text-align: center;">Executive Summary</h2>
         <p style="font-size: 1.2rem; text-align: center;">
         Analisis terhadap <strong>{total_responden:,} responden</strong> di Sumatera Utara menunjukkan bahwa 
         <strong>{(total_non_linear/total_responden*100):.1f}% bekerja di luar bidang pendidikannya</strong>. 
@@ -1643,7 +1643,7 @@ elif selected_page == "📈 Insights & Rekomendasi":
         st.markdown(f"""
         <div style="background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%); 
                     padding: 2rem; border-radius: 10px; color: white; margin-top: 2rem; text-align: center;">
-        <h2 style="color: white;">🚀 Siap Mengurangi Mismatch Pendidikan-Pekerjaan?</h2>
+        <h2 style="color: white;">Siap Mengurangi Mismatch Pendidikan-Pekerjaan?</h2>
         <p style="font-size: 1.1rem;">
         <strong>{percentage:.1f}% mismatch</strong> adalah peluang untuk transformasi besar. 
         Mari wujudkan Sumatera Utara dengan SDM yang tepat guna dan produktif!
@@ -1655,6 +1655,6 @@ elif selected_page == "📈 Insights & Rekomendasi":
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; color: #666; padding: 1rem;">
-    <p>📊 <strong>Analisis Linearitas Pendidikan vs Pekerjaan di Sumatera Utara</strong> | © Kelompok 04</p>
+    <p>Analisis Linearitas Pendidikan vs Pekerjaan di Sumatera Utara | © Kelompok 04</p>
 </div>
 """, unsafe_allow_html=True)
